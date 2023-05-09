@@ -36,7 +36,7 @@ DATA *create_data(const char *question, const char *answer)
             free(data);
             return NULL;
         }
-        strcpy(data->question, question);
+        strcpy_s(data->question, MAX_LINE_LENGTH, question);
     }
 
     if (answer) {
@@ -46,7 +46,7 @@ DATA *create_data(const char *question, const char *answer)
             free(data);
             return NULL;
         }
-        strcpy(data->answer, answer);
+        strcpy_s(data->answer, MAX_LINE_LENGTH, answer);
     }
 
     return data;

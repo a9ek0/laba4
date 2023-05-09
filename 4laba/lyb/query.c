@@ -17,7 +17,7 @@ int ask_question(NODE **node, const char *answer)
 char *add_extension(char *word, const char *extension)
 {
     word[strcspn(word, "\n")] = '\0';
-    strcat(word, extension);
+    strcat_s(word, MAX_LINE_LENGTH, extension);
     return word;
 }
 

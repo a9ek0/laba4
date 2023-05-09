@@ -103,10 +103,10 @@ void rebase_tree(NODE **node, FILE *log_file)
         tmp->no_branch = no_node;
 
         tmp->data->question = malloc(strlen(new_question) + 1);
-        strcpy(tmp->data->question, new_question );
+        strcpy_s(tmp->data->question, MAX_LINE_LENGTH, new_question );
 
         char *new_answer = malloc(strlen(tmp->data->answer) + 1);
-        strcpy(new_answer, tmp->data->answer);
+        strcpy_s(new_answer, MAX_LINE_LENGTH, tmp->data->answer);
         tmp->data->answer = new_answer;
         free(new_question);
         free(correct_answer);
@@ -154,7 +154,7 @@ void file_to_tree(NODE **root, FILE *file, int depth)
 
     if (line[0] == 'Q') {
         DATA *data = node->data;
-        data->question = strdup(line + 2);
+        data->question = _strdup(line + 2);
         data->answer = NULL;
         node->yes_branch = NULL;
         node->no_branch = NULL;
@@ -163,7 +163,7 @@ void file_to_tree(NODE **root, FILE *file, int depth)
         file_to_tree(&((*root)->no_branch), file, depth + 1);
     } else {
         DATA *data = node->data;
-        data->answer = strdup(line + 2);
+        data->answer = _strdup(line + 2);
         data->question = NULL;
         node->yes_branch = NULL;
         node->no_branch = NULL;
@@ -175,7 +175,7 @@ void manual_tree_filling(NODE **root, FILE *log_file){
     char *choose;
 
     choose = (char*) malloc(MAX_LINE_LENGTH * sizeof (char));
-    strcpy(choose, "Yes\n");
+    strcpy_s(choose, MAX_LINE_LENGTH, "Yes\n");
 
     while(strcmp(choose, "Yes\n") == 0) {
         run_through_tree(root, log_file);
@@ -198,7 +198,7 @@ char *choose_game()
     char *file_name;
 
     FILE *file;
-    file = fopen("games/game_list/games_list.txt", "rt");
+    fopen_s(&file, "games/game_list/games_list.txt", "rt");
     if(file == NULL)
         return NULL;
 

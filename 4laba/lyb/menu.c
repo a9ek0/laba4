@@ -8,7 +8,8 @@ void menu(NODE **root)
     log_name = add_extension(log_name, ".txt");
     add_word_to_beginning(log_name, "logs/");
     FILE *log_file;
-    log_file = fopen(log_name, "wt");
+
+    fopen_s(&log_file, log_name, "wt");
 
     if(log_file == NULL)
     {
@@ -57,7 +58,7 @@ void menu(NODE **root)
             FILE *file;
             char *game_name;
 
-            file = fopen("games/game_list/games_list.txt", "r+t");
+            fopen_s(&file, "games/game_list/games_list.txt", "r+t");
             if(file == NULL) {
                 fclose(log_file);
                 return;
@@ -84,7 +85,7 @@ void menu(NODE **root)
             fprintf(log_file, "The user saved the game under the name: %s.\n", game_name);
             game_name = add_extension(game_name, ".txt");
             add_word_to_beginning(game_name, "games/");
-            file = fopen(game_name, "wt");
+            fopen_s(&file, game_name, "wt");
 
             if(file == NULL)
             {
@@ -105,12 +106,13 @@ void menu(NODE **root)
         replace_char(game_name, '\n', '\0');
         fprintf(log_file, "User continued game %s.\n", game_name);
         buff_game_name = (char*) malloc((strlen(game_name) + 1) * sizeof (char));
-        strcpy(buff_game_name, game_name);
+        strcpy_s(buff_game_name, MAX_LINE_LENGTH, game_name);
         game_name = add_extension(game_name, ".txt");
         add_word_to_beginning(game_name, "games/");
 
         FILE *file;
-        file = fopen(game_name, "rt");
+
+        fopen_s(&file, game_name, "rt");
         if(file == NULL){
             fclose(log_file);
             free(buff_game_name);
@@ -133,7 +135,7 @@ void menu(NODE **root)
             fprintf(log_file, "The user has not saved the game.\n");
             exit(EXIT_SUCCESS);
         }else{
-            file = fopen(game_name, "wt");
+            fopen_s(&file, game_name, "wt");
             if (file == NULL)
             {
                 fclose(log_file);
